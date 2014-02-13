@@ -42,11 +42,12 @@ public class ArenaManager {
 	
 	public void leaveArena(String pname) {
 		
+		Player p = Bukkit.getPlayer(pname);
+		
 		for ( JoinArena i : playersInArenas) 
 		{
 			if(playersInArenas.contains(new JoinArena(i.id, pname))) 
 			{
-				Player p = Bukkit.getPlayer(pname);
 				{
 					if(p != null)
 					{
@@ -54,9 +55,14 @@ public class ArenaManager {
 					}
 				}
 				
+			} else {
+				p.sendMessage(ChatColor.GOLD + "You can't leave a arena, You seem to already be in one...");
 			}
 			
 		}
+		
+		
+		//send spawn
 		
 	}
 	
@@ -105,15 +111,9 @@ public class ArenaManager {
 										Location loc = s.loc;
 										p.teleport(loc);
 										
-										
-										/**
-										 *  debug message.
-										 */
+
 										p.sendMessage(ChatColor.GOLD + "you joined arena id " + s.arenaid + " and have been sent to spawn location: " + s.id);
-										
-										
-										
-										
+
 									}
 									
 									

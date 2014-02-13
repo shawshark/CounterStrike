@@ -1,12 +1,9 @@
 package me.shawshark.counterstrike;
 
+import org.bukkit.Location;
+
 public class SpawnLocation {
-	
-	public String arena;
+	public Location loc;
 	public int id;
-	
-	public SpawnLocation(String iarena, int iid) {
-		arena = iarena;
-		id = iid;
-	}
+	public SpawnLocation(Location iloc, int iid) { loc = iloc; id = iid; }
 }

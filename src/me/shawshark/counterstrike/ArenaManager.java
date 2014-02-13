@@ -2,8 +2,11 @@ package me.shawshark.counterstrike;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class ArenaManager {
@@ -24,7 +27,6 @@ public class ArenaManager {
 				arena = i.id;
 			}
 		}
-		
 		return arena;
 	}
 	
@@ -90,7 +92,32 @@ public class ArenaManager {
 							{
 								// can't join arena
 							} else {
-								// can join arena.
+								
+								
+								Random rand = new Random();
+								int randomNumber = rand.nextInt(total_allowed);
+								
+								for ( SpawnLocation s : m.spawns)
+								{
+									
+									if(randomNumber == s.id)
+									{	
+										Location loc = s.loc;
+										p.teleport(loc);
+										
+										
+										/**
+										 *  debug message.
+										 */
+										p.sendMessage(ChatColor.GOLD + "you joined arena id " + s.arenaid + " and have been sent to spawn location: " + s.id);
+										
+										
+										
+										
+									}
+									
+									
+								}
 							}
 							
 						} else {

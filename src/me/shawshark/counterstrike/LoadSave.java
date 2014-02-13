@@ -3,8 +3,10 @@ package me.shawshark.counterstrike;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class LoadSave {
@@ -81,9 +83,11 @@ public class LoadSave {
 			int y = Integer.parseInt(s[3]);
 			int z = Integer.parseInt(s[4]);
 			
+			int arenaid = Integer.parseInt(s[5]);
+			
 			Location loc = new Location(Bukkit.getServer().getWorld(world), x, y, z);
 			
-			m.spawns.add(new SpawnLocation(loc, id));
+			m.spawns.add(new SpawnLocation(loc, id, arenaid));
 		}
 		System.out.println("<CSS> Loaded " + count + " spawn locations!");
 	}
@@ -103,7 +107,9 @@ public class LoadSave {
 			int y = s.loc.getBlockY();
 			int z = s.loc.getBlockZ();
 			
-			String i = world + "," + id + "," + x + "," + y + "," + z;
+			int arenaid = s.arenaid;
+			
+			String i = world + "," + id + "," + x + "," + y + "," + z + "," + arenaid;
 			SpawnLocationsToString.add(i);
 		}
 		
@@ -114,5 +120,59 @@ public class LoadSave {
 		
 		SpawnLocationsToString.clear();
 		
+	}
+	
+	public void savesigns() {
+		int count = 0;
+		FileConfiguration c = m.getConfig();
+		
+		List<String> savesigns = new ArrayList<String>();
+		
+		for ( Sign i : m.signs) 
+		{
+			count++;
+			String arenaid = i.arenaid;
+			String world = i.loc.getWorld().getName();
+			int x = i.loc.getBlockX();
+			int y = i.loc.getBlockY();
+			int z = i.loc.getBlockZ();
+			String s = arenaid + "," + world + "," + x + "," + y + "," + z;
+			savesigns.add(s);
+		}
+		
+		c.set("server.signs", savesigns);
+		m.saveConfig();
+		
+		System.out.println("<CSS> Saved " + count + " signs!");
+		
+		savesigns.clear();
+		m.signs.clear();
+	}
+	
+	public void loadsigns() {
+		
+		int count = 0;
+		
+		FileConfiguration c = m.getConfig();
+		
+		for ( String i : c.getStringList("server.signs")) 
+		{
+			
+			String[] s = i.split(",");
+			count++;
+				
+			String arenaid = s[0];
+			String world = s[1];
+				
+			int x = Integer.parseInt(s[2]);
+			int y = Integer.parseInt(s[3]);
+			int z = Integer.parseInt(s[4]);
+				
+			World w = Bukkit.getServer().getWorld(world);				
+			Location loc = new Location(w, x, y, z);
+			
+			m.signs.add(new Sign(arenaid, loc));
+		}
+		System.out.println("<CSS> Loaded " + count + " signs!");
 	}
 }

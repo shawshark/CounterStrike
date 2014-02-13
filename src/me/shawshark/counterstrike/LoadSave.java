@@ -8,17 +8,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class LoadSave {
 	
 	public main m;
+	int count;
 	
 	public LoadSave(main m) {
 		this.m = m;
 	}
 	
 	public void saveArenas() {
+		count = 0;
+		
 		FileConfiguration c = m.getConfig();
 		
 		List<String> ArenaToString = new ArrayList<String>();
-		
-		int count = 0;
 		
 		for ( Arena a : m.arenas)
 		{
@@ -41,10 +42,9 @@ public class LoadSave {
 	}
 	
 	public void loadArenas() {
-		FileConfiguration c = m.getConfig();
+		count = 0;
 		
-		@SuppressWarnings("unused")
-		int count = 0;
+		FileConfiguration c = m.getConfig();
 		
 		for ( String i : c.getStringList("server.arenas")) 
 		{
